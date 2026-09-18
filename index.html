@@ -27,14 +27,14 @@
 
 <!-- ✅ الجديد: حساب الطول -->
 <label class="text-sm font-bold mt-4 block">الطول الإجمالي (متر) - جديد</label>
-<input id="totalLength" type="number" value="100" class="w-full p-3 rounded-xl border bg-yellow-50">
+<input id="totalLength" type="number" value="0" class="w-full p-3 rounded-xl border bg-yellow-50">
 <label class="text-sm font-bold mt-2 block">العرض الإجمالي (متر) - جديد</label>
-<input id="totalWidth" type="number" value="12" class="w-full p-3 rounded-xl border bg-yellow-50">
+<input id="totalWidth" type="number" value="0" class="w-full p-3 rounded-xl border bg-yellow-50">
 <label class="text-sm font-bold mt-2 block">طريقة التقسيم</label>
 <select id="splitType" class="w-full p-3 rounded-xl border mt-1 bg-yellow-50"><option value="length">على الطول (كل واحد واجهة)</option><option value="width">على العرض</option></select>
 
-<label class="text-sm font-bold mt-4 block">المساحة الإجمالية م²</label><input id="area" type="number" value="1200" class="w-full p-3 rounded-xl border">
-<label class="text-sm font-bold mt-4 block">القيمة السوقية بالدرهم</label><input id="value" type="number" value="850000" class="w-full p-3 rounded-xl border">
+<label class="text-sm font-bold mt-4 block">المساحة الإجمالية م²</label><input id="area" type="number" value="0" class="w-full p-3 rounded-xl border">
+<label class="text-sm font-bold mt-4 block">القيمة السوقية بالدرهم</label><input id="value" type="number" value="0" class="w-full p-3 rounded-xl border">
 <label class="text-sm font-bold mt-4 block">مدينة العقار</label><input id="city" value="طنجة - اكزناية" class="w-full p-3 rounded-xl border">
 </div>
 
@@ -75,10 +75,10 @@
 
 <script>
 const HEIRS = [
-{id:'husband',name:'الزوج',max:1},{id:'wives',name:'الزوجات',max:4},{id:'sons',name:'الأبناء الذكور',max:10},{id:'daughters',name:'البنات',max:10},{id:'father',name:'الأب',max:1},{id:'mother',name:'الأم',max:1},{id:'grandfather',name:'الجد للأب',max:1},{id:'grandmother_f',name:'الجدة للأب',max:1},{id:'grandmother_m',name:'الجدة للأم',max:1},{id:'brothers',name:'الإخوة الأشقاء',max:8},{id:'sisters',name:'الأخوات الشقيقات',max:8},{id:'brothers_f',name:'الإخوة لأب',max:8},{id:'paternal_uncles',name:'الأعمام',max:5}
+{id:'husband',name:'الزوج',max:1},{id:'wives',name:'الزوجات',max:4},{id:'sons',name:'الأبناء الذكور',max:10},{id:'daughters',name:'البنات',max:10},{id:'father',name:'الأب',max:1},{id:'mother',name:'الأم',max:1},{id:'grandfather',name:'الجد للأب',max:1},{id:'grandmother_f',name:'الجدة للأب',max:1},{id:'grandmother_m',name:'الجدة للأم',max:1},{id:'brothers',name:'الإخوة الأشقاء',max:8},{id:'sisters',name:'الأخوات الشقيقات',max:8},{id:'brothers_f',name:'الإخوة لأب',max:8},{id:'paternal_uncles',name:'الأعمام',max:12}
 ];
 let state={};
-function renderHeirs(){let h=document.getElementById('heirsList');h.innerHTML='';HEIRS.forEach(x=>{state[x.id]= (x.id.includes('sons')?2:x.id.includes('daughters')?1:x.id=='wives'?1:0);h.innerHTML+=`<div class="flex justify-between items-center bg-gray-50 p-3 rounded-xl"><div><b>${x.name}</b><br><small class="text-gray-500">الحد الأقصى ${x.max}</small></div><div class="flex items-center gap-2"><button onclick="upd('${x.id}',-1)" class="w-8 h-8 bg-white rounded-full shadow">-</button><span id="c-${x.id}" class="font-black w-6 text-center">${state[x.id]}</span><button onclick="upd('${x.id}',1)" class="w-8 h-8 bg-[#0B3D2E] text-white rounded-full">+</button></div></div>`});}
+function renderHeirs(){let h=document.getElementById('heirsList');h.innerHTML='';HEIRS.forEach(x=>{state[x.id]= (x.id.includes('sons')?0:x.id.includes('daughters')?0:x.id=='wives'?0:0);h.innerHTML+=`<div class="flex justify-between items-center bg-gray-50 p-3 rounded-xl"><div><b>${x.name}</b><br><small class="text-gray-500">الحد الأقصى ${x.max}</small></div><div class="flex items-center gap-2"><button onclick="upd('${x.id}',-1)" class="w-8 h-8 bg-white rounded-full shadow">-</button><span id="c-${x.id}" class="font-black w-6 text-center">${state[x.id]}</span><button onclick="upd('${x.id}',1)" class="w-8 h-8 bg-[#0B3D2E] text-white rounded-full">+</button></div></div>`});}
 function upd(id,d){let max=HEIRS.find(x=>x.id==id).max;state[id]=Math.max(0,Math.min(max,state[id]+d));document.getElementById('c-'+id).innerText=state[id];}
 function addCustomHeir(){let name=prompt('اسم الوارث:');if(name){HEIRS.push({id:'custom'+Date.now(),name,max:1});state[HEIRS[HEIRS.length-1].id]=1;renderHeirs();}}
 renderHeirs();
@@ -124,7 +124,7 @@ labels.push(r.name);dataChart.push((r.share*100).toFixed(2));
 });
 document.getElementById('kpiHeirs').innerText=rows.length;
 document.getElementById('kpiStatus').innerText= fixed>1? 'فيها عول' : 'عادلة';
-document.getElementById('legalDoc').innerHTML=`<h4 class="font-black">الوثيقة العدلية المبدئية - ${document.getElementById('city').value}</h4><p class="text-sm mt-3 leading-7">يشهد موقع قسمتي PRO أنه بتاريخ ${new Date().toLocaleDateString('ar-MA')} تمت قسمة تركة مساحتها ${area}م² (الطول ${L}م × العرض ${W}م) وقيمتها ${value.toLocaleString()} درهم على ${rows.length} وارث. طريقة التقسيم الميداني: على ${splitType=='length'?'الطول':'العرض'}.<br><br>${rows.map(r=>`• ${r.name}: ${(r.share*(splitType=='length'?L:W)).toFixed(2)} متر ${splitType=='length'?'طول':'عرض'}`).join('<br>')}</p><div class="mt-4 text-xs text-gray-500">رقم الملف: QSM-${Date.now().toString().slice(-6)} | qismati.pro</div>`;
+document.getElementById('legalDoc').innerHTML=`<h4 class="font-black">الوثيقة العدلية المبدئية - ${document.getElementById('city').value}</h4><p class="text-sm mt-3 leading-7">يشهد موقع qismati-PRO أنه بتاريخ ${new Date().toLocaleDateString('ar-MA')} تمت قسمة تركة مساحتها ${area}م² (الطول ${L}م × العرض ${W}م) وقيمتها ${value.toLocaleString()} درهم على ${rows.length} وارث. طريقة التقسيم الميداني: على ${splitType=='length'?'الطول':'العرض'}.<br><br>${rows.map(r=>`• ${r.name}: ${(r.share*(splitType=='length'?L:W)).toFixed(2)} متر ${splitType=='length'?'طول':'عرض'}`).join('<br>')}</p><div class="mt-4 text-xs text-gray-500">رقم الملف: QSM-${Date.now().toString().slice(-6)} | qismati.pro</div>`;
 
 // ✅ خطة الأرض بالطول
 let plan=document.getElementById('landPlan');plan.innerHTML='';rows.forEach((r,i)=>{let len = splitType=='length'? (r.share * L) : (r.share * W);plan.innerHTML+=`<div style="width:${r.share*100}%;background:${colors[i%colors.length]}" class="text-white p-2 rounded-xl text-center flex flex-col justify-center"><b class="text-xs">${r.name}</b><span class="font-black">${len.toFixed(1)}م</span></div>`;});
