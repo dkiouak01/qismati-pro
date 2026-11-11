@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>qismati PRO</title>
 <link rel="icon" type="image/x-icon" href="./favicon.ico">
-<link rel="icon" type="image/png" sizes="512x512" href="./favicon-new.png">
-<link rel="apple-touch-icon" href="./favicon-new.png">
+<link rel="icon" type="image/png" sizes="512x512" href="./favicon-512.png">
+<link rel="apple-touch-icon" href="./favicon-512.png">
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -42,11 +42,11 @@
 </div>
 
 <div class="glass rounded-[20px] p-6 shadow-xl">
-<h2 class="font-black text-xl mb-4">الورثة (25 حالة)</h2>
+<h2 class="font-black text-xl mb-4">الورثة (24 حالة)</h2>
 <div id="heirsList" class="space-y-3 max-h-[600px] overflow-y-auto pr-1"></div>
 <button onclick="addCustomHeir()" class="w-full mt-4 border-2 border-dashed border-green-700 rounded-xl p-3 font-bold">+ إضافة وارث</button>
 </div>
-<button onclick="calculatePRO()" class="w-full bg-[#0B3D2E] text-white p-5 rounded-[16px] font-black text-xl shadow-lg hover:bg-black transition">احسب القسمة</button>
+<button onclick="calculatePRO()" class="w-full bg-[#0B3D2E] text-white p-5 rounded-[16px] font-black text-xl shadow-lg hover:bg-black transition">احسب القسمة الاحترافية ⚖️</button>
 </div>
 
 <div class="space-y-6">
@@ -66,19 +66,19 @@
 </div>
 </div>
 <div class="bg-white rounded-[20px] p-6 shadow-xl">
-<h3 class="font-black"> خطة التقسيم الميداني المقترحة بالطول</h3>
+<h3 class="font-black">📍 خطة التقسيم الميداني المقترحة بالطول</h3>
 <p class="text-sm text-gray-600 mt-2">بناء على <span id="planInfo"></span>، هذا اقتراح كيفاش تقسم الأرض ميدانيا:</p>
 <div id="landPlan" class="flex gap-1 mt-4 h-24 border-2 border-dashed rounded-xl p-1 overflow-hidden"></div>
 </div>
 </div>
 
-<div id="empty" class="bg-white rounded-[20px] p-20 text-center shadow"><h3 class="text-3xl"> دخل معلومات الورثة وابدأ الحساب</h3><p class="text-gray-500 mt-2">النظام كيحسب الحجب والعول والرد أوتوماتيكيا حسب مدونة الأسرة المغربية 2026</p></div>
+<div id="empty" class="bg-white rounded-[20px] p-20 text-center shadow"><h3 class="text-3xl">دخل معلومات الورثة وابدأ الحساب</h3><p class="text-gray-500 mt-2">النظام كيحسب الحجب والعول والرد أوتوماتيكيا حسب مدونة الأسرة المغربية 2026</p></div>
 </div>
 </main>
 
 <script>
 const HEIRS = [
-{id:'husband',name:'الزوج',max:1},{id:'wives',name:'الزوجات',max:4},{id:'sons',name:'الأبناء الذكور',max:10},{id:'daughters',name:'البنات',max:10},{id:'father',name:'الأب',max:1},{id:'mother',name:'الأم',max:1},{id:'grandfather',name:'الجد الأم',max:1},{id:'grandfather',name:'الجد للأب',max:1},{id:'grandmother_f',name:'الجدة للأب',max:1},{id:'grandmother_m',name:'الجدة للأم',max:1},{id:'brothers',name:'الإخوة الأشقاء',max:8},{id:'sisters',name:'الأخوات الشقيقات',max:8},{id:'brothers_f',name:'الإخوة لأب',max:8},{id:'paternal_uncles',name:'الأعمام',max:12}
+{id:'husband',name:'الزوج',max:1},{id:'wives',name:'الزوجات',max:4},{id:'sons',name:'الأبناء الذكور',max:10},{id:'daughters',name:'البنات',max:10},{id:'father',name:'الأب',max:1},{id:'mother',name:'الأم',max:1},{id:'grandfather',name:'الجد للأب',max:1},{id:'grandmother_f',name:'الجدة للأب',max:1},{id:'grandmother_m',name:'الجدة للأم',max:1},{id:'brothers',name:'الإخوة الأشقاء',max:8},{id:'sisters',name:'الأخوات الشقيقات',max:8},{id:'brothers_f',name:'الإخوة لأب',max:8},{id:'paternal_uncles',name:'الأعمام',max:12}
 ];
 let state={};
 function renderHeirs(){let h=document.getElementById('heirsList');h.innerHTML='';HEIRS.forEach(x=>{state[x.id]= (x.id.includes('sons')?0:x.id.includes('daughters')?0:x.id=='wives'?0:0);h.innerHTML+=`<div class="flex justify-between items-center bg-gray-50 p-3 rounded-xl"><div><b>${x.name}</b><br><small class="text-gray-500">الحد الأقصى ${x.max}</small></div><div class="flex items-center gap-2"><button onclick="upd('${x.id}',-1)" class="w-8 h-8 bg-white rounded-full shadow">-</button><span id="c-${x.id}" class="font-black w-6 text-center">${state[x.id]}</span><button onclick="upd('${x.id}',1)" class="w-8 h-8 bg-[#0B3D2E] text-white rounded-full">+</button></div></div>`});}
