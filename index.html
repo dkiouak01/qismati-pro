@@ -78,7 +78,7 @@
 
 <script>
 const HEIRS = [
-{id:'husband',name:'الزوج',max:1},{id:'wives',name:'الزوجات',max:4},{id:'sons',name:'الأبناء الذكور',max:10},{id:'daughters',name:'البنات',max:10},{id:'father',name:'الأب',max:1},{id:'mother',name:'الأم',max:1},{id:'grandfather',name:'الجد للأب',max:1},{id:'grandmother_f',name:'الجدة للأب',max:1},{id:'grandmother_m',name:'الجدة للأم',max:1},{id:'brothers',name:'الإخوة الأشقاء',max:8},{id:'sisters',name:'الأخوات الشقيقات',max:8},{id:'brothers_f',name:'الإخوة لأب',max:8},{id:'paternal_uncles',name:'الأعمام',max:12}
+{id:'husband',name:'الزوج',max:4},{id:'wives',name:'الزوجات',max:4},{id:'sons',name:'الأبناء الذكور',max:10},{id:'daughters',name:'البنات',max:10},{id:'father',name:'الأب',max:2},{id:'mother',name:'الأم',max:2},{id:'grandfather',name:'الجد للأب',max:2},{id:'grandmother_f',name:'الجدة للأب',max:2},{id:'grandmother_m',name:'الجدة للأم',max:2},{id:'brothers',name:'الإخوة الأشقاء',max:8},{id:'sisters',name:'الأخوات الشقيقات',max:8},{id:'brothers_f',name:'الإخوة لأب',max:8},{id:'paternal_uncles',name:'الأعمام',max:12}
 ];
 let state={};
 function renderHeirs(){let h=document.getElementById('heirsList');h.innerHTML='';HEIRS.forEach(x=>{state[x.id]= (x.id.includes('sons')?0:x.id.includes('daughters')?0:x.id=='wives'?0:0);h.innerHTML+=`<div class="flex justify-between items-center bg-gray-50 p-3 rounded-xl"><div><b>${x.name}</b><br><small class="text-gray-500">الحد الأقصى ${x.max}</small></div><div class="flex items-center gap-2"><button onclick="upd('${x.id}',-1)" class="w-8 h-8 bg-white rounded-full shadow">-</button><span id="c-${x.id}" class="font-black w-6 text-center">${state[x.id]}</span><button onclick="upd('${x.id}',1)" class="w-8 h-8 bg-[#0B3D2E] text-white rounded-full">+</button></div></div>`});}
