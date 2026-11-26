@@ -1,143 +1,197 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+<!-- 1. الرأس والإعدادات: الخطوط، المكتبات، وتنسيقات الواجهة والطباعة -->
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>qismati PRO</title>
 <link rel="icon" type="image/x-icon" href="./favicon.ico">
 <link rel="icon" type="image/png" sizes="512x512" href="./favicon-512.png">
-<link rel="apple-touch-icon" href="./favicon-512.png">
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.tailwindcss.com"></script><script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
-<style>*{font-family:'Tajawal'}.glass{backdrop-filter:blur(10px); background:rgba(255,255,255,.9)}</style>
+<style>*{font-family:'Tajawal',sans-serif}.glass{backdrop-filter:blur(10px);background:rgba(255,255,255,.92)}@media print{header,footer,button,#empty,.modal{display:none!important}#resultBox{display:block!important}}</style>
 </head>
-<body class="bg-[#F5F7F0]">
+
+<body class="bg-[#F5F7F0] text-gray-900">
+
+<!-- 2. الهيدر العلوي: هوية المنصة والرسالة التعريفية -->
 <header class="bg-gradient-to-l from-[#0B3D2E] to-[#148F68] text-white">
-<div class="max-w-7xl mx-auto px-6 py-8 flex justify-between items-center">
-<div><h1 class="text-4xl font-black">qismati<span class="text-[#FFD700]">.PRO</span></h1><p class="opacity-80 mt-2">منصة قسمة الإرث وفق مدونة الأسرة والفقه المالكي - معتمدة من عدول</p></div>
-<div class="hidden md:block text-left"><div class="bg-white/10 p-3 rounded-xl">🔒 مشفر وآمن<br>⚖️ مطابق للشرع</div></div>
+<div class="max-w-7xl mx-auto px-6 py-7 flex justify-between items-center">
+<div><h1 class="text-4xl font-black">qismati<span class="text-[#FFD700]">.PRO</span></h1><p class="opacity-85 mt-1">قسمة الإرث وفق الفقه المالكي ومدونة الأسرة</p></div>
+<div class="hidden md:block bg-white/10 p-3 rounded-xl text-sm">🔒 مشفر وآمن<br>⚖️ مطابق للشرع</div>
 </div>
 </header>
 
-<main class="max-w-7xl mx-auto px-4 -mt-6 grid lg:grid-cols-[400px_1fr] gap-6">
-<div class="space-y-4">
-<div class="glass rounded-[20px] p-6 shadow-xl">
-<h2 class="font-black text-xl mb-4">📁 بيانات التركة</h2>
-<label class="text-sm font-bold">نوع التركة</label>
-<select id="estateType" class="w-full p-3 rounded-xl border mt-1"><option>أرض فلاحية</option><option>شقة / منزل</option><option>مبلغ مالي + عقار</option><option>شركة / مقاولة</option></select>
+<main class="max-w-7xl mx-auto px-4 -mt-5 grid lg:grid-cols-[380px_1fr] gap-6 pb-10">
 
-<!-- ✅ الجديد: حساب الطول -->
-<label class="text-sm font-bold mt-4 block">الطول الإجمالي (متر)</label>
-<input id="totalLength" type="number" value="" class="w-full p-3 rounded-xl border bg-yellow-50">
-<label class="text-sm font-bold mt-2 block">العرض الإجمالي (متر)</label>
-<input id="totalWidth" type="number" value="" class="w-full p-3 rounded-xl border bg-yellow-50">
-<label class="text-sm font-bold mt-2 block">طريقة التقسيم</label>
-<select id="splitType" class="w-full p-3 rounded-xl border mt-1 bg-yellow-50"><option value="length">على الطول (كل واحد واجهة)</option><option value="width">على العرض</option></select>
+  <!-- 3. العمود الأيمن: إدخال بيانات التركة واختيار الورثة وزر الحساب -->
+  <div class="space-y-4">
+    <div class="glass rounded-2xl p-5 shadow-xl">
+      <h2 class="font-black text-lg mb-3">📁 بيانات التركة</h2>
+      <select id="estateType" class="w-full p-2.5 rounded-xl border bg-white"><option>أرض فلاحية</option><option>شقة / منزل</option><option>مبلغ مالي + عقار</option><option>شركة / مقاولة</option></select>
+      <div class="grid grid-cols-2 gap-2 mt-3">
+        <div><label class="text-xs font-bold">الطول (م)</label><input id="totalLength" type="number" min="0" step="any" class="w-full p-2.5 rounded-xl border bg-yellow-50"></div>
+        <div><label class="text-xs font-bold">العرض (م)</label><input id="totalWidth" type="number" min="0" step="any" class="w-full p-2.5 rounded-xl border bg-yellow-50"></div>
+      </div>
+      <label class="text-xs font-bold mt-2 block">طريقة التقسيم</label>
+      <select id="splitType" class="w-full p-2.5 rounded-xl border bg-yellow-50"><option value="length">على الطول (العرض ثابت)</option><option value="width">على العرض (الطول ثابت)</option></select>
+      <div class="grid grid-cols-2 gap-2 mt-2">
+        <div><label class="text-xs font-bold">المساحة م²</label><input id="area" type="number" min="0" step="any" class="w-full p-2.5 rounded-xl border"></div>
+        <div><label class="text-xs font-bold">القيمة (درهم)</label><input id="value" type="number" min="0" step="any" class="w-full p-2.5 rounded-xl border"></div>
+      </div>
+      <label class="text-xs font-bold mt-2 block">المدينة</label><input id="city" value="طنجة" class="w-full p-2.5 rounded-xl border">
+    </div>
 
-<label class="text-sm font-bold mt-4 block">المساحة الإجمالية م²</label><input id="area" type="number" value="" class="w-full p-3 rounded-xl border">
-<label class="text-sm font-bold mt-4 block">القيمة السوقية بالدرهم</label><input id="value" type="number" value="" class="w-full p-3 rounded-xl border">
-<label class="text-sm font-bold mt-4 block">مدينة لإرث</label><input id="city" value="طنجة" class="w-full p-3 rounded-xl border">
-</div>
+    <div class="glass rounded-2xl p-5 shadow-xl">
+      <h2 class="font-black text-lg mb-3"> الورثة الشرعيون</h2>
+      <div id="heirsList" class="space-y-2 max-h-[430px] overflow-y-auto pr-1"></div>
+      <button type="button" onclick="toggleModal('addModal',1)" class="w-full mt-3 border-2 border-dashed border-[#0B3D2E] text-[#0B3D2E] hover:bg-green-50 rounded-xl p-2.5 font-bold text-sm">+ طرف خارج الفريضة (وصية/صلح)</button>
+    </div>
 
-<div class="glass rounded-[20px] p-6 shadow-xl">
-<h2 class="font-black text-xl mb-4">الورثة (24 حالة)</h2>
-<div id="heirsList" class="space-y-3 max-h-[600px] overflow-y-auto pr-1"></div>
-<button onclick="addCustomHeir()" class="w-full mt-4 border-2 border-dashed border-green-700 rounded-xl p-3 font-bold">+ إضافة وارث</button>
-</div>
-<button onclick="calculatePRO()" class="w-full bg-[#0B3D2E] text-white p-5 rounded-[16px] font-black text-xl shadow-lg hover:bg-black transition">احسب القسمة الاحترافية ⚖️</button>
-</div>
+    <button type="button" onclick="calculatePRO()" class="w-full bg-[#0B3D2E] text-white p-4 rounded-2xl font-black text-lg shadow-lg hover:bg-black transition">احسب القسمة الشرعية </button>
+  </div>
 
-<div class="space-y-6">
-<div class="grid md:grid-cols-3 gap-4">
-<div class="bg-white rounded-[20px] p-6 shadow"><p class="text-gray-500">صافي التركة</p><h3 id="kpiValue" class="text-2xl font-black">0 درهم</h3></div>
-<div class="bg-white rounded-[20px] p-6 shadow"><p class="text-gray-500">عدد الورثة المستحقين</p><h3 id="kpiHeirs" class="text-2xl font-black">0</h3></div>
-<div class="bg-white rounded-[20px] p-6 shadow"><p class="text-gray-500">حالة المسألة</p><h3 id="kpiStatus" class="text-lg font-black text-green-700">عادلة</h3></div>
-</div>
+  <!-- 4. العمود الأيسر: بطاقات الملخص، جدول النتائج، المبيان، وخطة الأرض -->
+  <div class="space-y-5">
+    <div class="grid md:grid-cols-3 gap-4">
+      <div class="bg-white rounded-2xl p-5 shadow"><p class="text-gray-500 text-xs">صافي التركة</p><h3 id="kpiValue" class="text-xl font-black mt-1">0 درهم</h3></div>
+      <div class="bg-white rounded-2xl p-5 shadow"><p class="text-gray-500 text-xs">الورثة المستحقون</p><h3 id="kpiHeirs" class="text-xl font-black mt-1">0</h3></div>
+      <div class="bg-white rounded-2xl p-5 shadow"><p class="text-gray-500 text-xs">حالة المسألة</p><h3 id="kpiStatus" class="text-lg font-black text-green-700 mt-1">عادلة</h3></div>
+    </div>
 
-<div id="resultBox" class="hidden">
-<div class="bg-white rounded-[20px] p-6 shadow-xl">
-<div class="flex justify-between items-center"><h2 class="font-black text-2xl">📊 جدول القسمة المفصل بالطول</h2><button onclick="exportPDF()" class="bg-[#FFD700] px-5 py-2 rounded-xl font-bold">تحميل PDF رسمي</button></div>
-<div class="overflow-x-auto mt-4"><table class="w-full"><thead class="bg-[#0B3D2E] text-white"><tr><th class="p-3">الوارث</th><th>القرابة</th><th>الفرض</th><th>النسبة</th><th class="bg-yellow-500 text-black">الطول (م)</th><th>م²</th><th>درهم</th><th>الحالة</th></tr></thead><tbody id="resultTable"></tbody></table></div>
-<div class="grid md:grid-cols-2 gap-6 mt-8">
-<div class="bg-[#F5F7F0] p-4 rounded-xl"><canvas id="pieChart"></canvas></div>
-<div class="bg-[#FFFDF0] border-2 border-dashed border-[#D4A017] p-6 rounded-xl" id="legalDoc"></div>
-</div>
-</div>
-<div class="bg-white rounded-[20px] p-6 shadow-xl">
-<h3 class="font-black">📍 خطة التقسيم الميداني المقترحة بالطول</h3>
-<p class="text-sm text-gray-600 mt-2">بناء على <span id="planInfo"></span>، هذا اقتراح كيفاش تقسم الأرض ميدانيا:</p>
-<div id="landPlan" class="flex gap-1 mt-4 h-24 border-2 border-dashed rounded-xl p-1 overflow-hidden"></div>
-</div>
-</div>
+    <div id="resultBox" class="hidden space-y-5">
+      <div class="bg-white rounded-2xl p-5 shadow-xl">
+        <div class="flex justify-between items-center"><h2 class="font-black text-xl">📊 جدول القسمة الشرعية</h2><button type="button" onclick="window.print()" class="bg-[#FFD700] px-4 py-2 rounded-xl font-bold text-sm">طباعة / PDF</button></div>
+        <div class="overflow-x-auto mt-3">
+          <table class="w-full text-right text-sm"><thead class="bg-[#0B3D2E] text-white"><tr><th class="p-2.5">الوارث</th><th class="p-2.5">الفرض</th><th class="p-2.5">النسبة</th><th class="p-2.5 bg-yellow-500 text-black" id="dimHeader">الطول</th><th class="p-2.5">م²</th><th class="p-2.5">درهم</th><th class="p-2.5">الحالة</th></tr></thead><tbody id="resultTable"></tbody></table>
+        </div>
+        <div class="grid md:grid-cols-2 gap-4 mt-6">
+          <div class="bg-[#F5F7F0] p-3 rounded-xl flex items-center justify-center"><canvas id="pieChart"></canvas></div>
+          <div class="bg-[#FFFDF0] border-2 border-dashed border-[#D4A017] p-4 rounded-xl text-sm leading-7" id="legalDoc"></div>
+        </div>
+      </div>
 
-<div id="empty" class="bg-white rounded-[20px] p-20 text-center shadow"><h3 class="text-3xl">دخل معلومات الورثة وابدأ الحساب</h3><p class="text-gray-500 mt-2">النظام كيحسب الحجب والعول والرد أوتوماتيكيا حسب مدونة الأسرة المغربية 2026</p></div>
-</div>
+      <div class="bg-white rounded-2xl p-5 shadow-xl">
+        <h3 class="font-black">📍 خطة التقسيم الميداني</h3><p class="text-xs text-gray-600 mt-1" id="planInfo"></p>
+        <div id="landPlan" class="flex gap-1 mt-3 h-20 border-2 border-dashed rounded-xl p-1 overflow-hidden"></div>
+        <div id="extraNotes" class="mt-3 text-xs"></div>
+      </div>
+    </div>
+
+    <div id="empty" class="bg-white rounded-2xl p-16 text-center shadow"><h3 class="text-2xl font-black"> أدخل بيانات التركة والورثة</h3><p class="text-gray-500 mt-2 text-sm">حساب تلقائي للفروض والتعصيب والعول والحجب</p></div>
+  </div>
+
 </main>
 
+<!-- 5. الفوتر وطرق التواصل الاجتماعي -->
+<footer class="bg-[#0B3D2E] text-white mt-8">
+  <div class="max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center gap-4">
+    <div>
+      <h3 class="font-black text-lg">تواصل مع المطور محمد الدقيوق</h3>
+      <p class="text-xs text-white/75 mt-1">للاستفسارات، الدعم التقني، أو اقتراح تحسينات على منصة qismati.PRO</p>
+    </div>
+    <div class="flex flex-wrap items-center gap-2.5">
+      <a href="https://www.facebook.com/sx.mohamd.dakiwake" target="_blank" rel="noopener" class="flex items-center gap-2 bg-white/10 hover:bg-[#1877F2] px-3.5 py-2 rounded-xl text-xs font-bold transition">
+        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12"/></svg>
+        <span>Facebook</span>
+      </a>
+      <a href="https://www.instagram.com/dkiouak01?dmpr=aGY0cWNra2RseWZo" target="_blank" rel="noopener" class="flex items-center gap-2 bg-white/10 hover:bg-[#E4405F] px-3.5 py-2 rounded-xl text-xs font-bold transition">
+        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5M12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10m0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6"/></svg>
+        <span>Instagram</span>
+      </a>
+      <a href="https://x.com/dkiouak01" target="_blank" rel="noopener" class="flex items-center gap-2 bg-white/10 hover:bg-black px-3.5 py-2 rounded-xl text-xs font-bold transition">
+        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        <span>Twitter / X</span>
+      </a>
+      <a href="https://www.linkedin.com/in/dkiouak-mohamed-a1b701437?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" rel="noopener" class="flex items-center gap-2 bg-white/10 hover:bg-[#0A66C2] px-3.5 py-2 rounded-xl text-xs font-bold transition">
+        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+        <span>LinkedIn</span>
+      </a>
+      <a href="https://github.com/dkiouak01" target="_blank" rel="noopener" class="flex items-center gap-2 bg-white/10 hover:bg-gray-900 px-3.5 py-2 rounded-xl text-xs font-bold transition">
+        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2"/></svg>
+        <span>GitHub</span>
+      </a>
+      <a href="https://www.reddit.com/u/dkiouak-01/s/tVt9VeEkep" target="_blank" rel="noopener" class="flex items-center gap-2 bg-white/10 hover:bg-[#FF4500] px-3.5 py-2 rounded-xl text-xs font-bold transition">
+        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2m5.5 11.25c0 .69-.56 1.25-1.25 1.25-.27 0-.52-.09-.72-.24-.97.7-2.29 1.15-3.75 1.2l-.64 3.01 2.08.44a1.12 1.12 0 1 1-.14.66l-2.38-.5a.32.32 0 0 1-.25-.38l.72-3.38c-1.57-.04-2.99-.49-4.01-1.21-.2.16-.46.26-.74.26-.69 0-1.25-.56-1.25-1.25 0-.49.28-.91.69-1.12-.02-.17-.04-.33-.04-.5 0-1.91 2.22-3.46 4.96-3.46 2.74 0 4.96 1.55 4.96 3.46 0 .17-.02.34-.05.51.4.21.67.63.67 1.11M9.25 12a1 1 0 1 0 0 2 1 1 0 0 0 0-2m5.5 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-5.16 3.74a.32.32 0 0 1 .45-.03c.53.43 1.22.66 1.96.66s1.43-.23 1.96-.66a.32.32 0 1 1 .4.5c-.63.51-1.45.79-2.36.79s-1.73-.28-2.36-.79a.32.32 0 0 1-.05-.47M16.5 6.5a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0"/></svg>
+        <span>Reddit</span>
+      </a>
+      <a href="mailto:dkiouak01@outlook.com" class="flex items-center gap-2 bg-[#FFD700] text-black hover:bg-amber-400 px-3.5 py-2 rounded-xl text-xs font-black transition">
+        <span>✉️ Email</span>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<!-- 6. النوافذ المنبثقة: إضافة طرف خارج الفريضة ورسائل التنبيه -->
+<div id="addModal" class="modal hidden fixed inset-0 z-50 bg-black/45 backdrop-blur-sm flex items-center justify-center p-4">
+<div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-2xl">
+<h3 class="font-black text-lg text-[#0B3D2E]">إضافة طرف خارج الفريضة</h3>
+<input id="customName" placeholder="الاسم (مثال: فاطمة - وصية)" class="w-full p-2.5 rounded-xl border mt-3">
+<div class="flex justify-end gap-2 mt-4"><button onclick="toggleModal('addModal',0)" class="px-4 py-2 rounded-xl bg-gray-100 font-bold text-sm">إلغاء</button><button onclick="addCustom()" class="px-4 py-2 rounded-xl bg-[#0B3D2E] text-white font-bold text-sm">إضافة</button></div>
+</div>
+</div>
+
+<div id="alertModal" class="modal hidden fixed inset-0 z-50 bg-black/45 backdrop-blur-sm flex items-center justify-center p-4">
+<div class="bg-white rounded-2xl max-w-xs w-full p-5 shadow-2xl text-center">
+<h3 class="font-black text-lg text-amber-700">تنبيه</h3><p id="alertMsg" class="text-sm text-gray-600 mt-2"></p>
+<button onclick="toggleModal('alertModal',0)" class="mt-4 w-full py-2 rounded-xl bg-[#0B3D2E] text-white font-bold text-sm">حسناً</button>
+</div>
+</div>
+
+<!-- 7. برمجة الحساب والواجهة: العدادات، المساحة، المنطق الشرعي، والرسم -->
 <script>
-const HEIRS = [
-{id:'husband',name:'الزوج',max:4},{id:'wives',name:'الزوجات',max:4},{id:'sons',name:'الأبناء الذكور',max:10},{id:'daughters',name:'البنات',max:10},{id:'father',name:'الأب',max:2},{id:'mother',name:'الأم',max:2},{id:'grandfather',name:'الجد للأب',max:2},{id:'grandmother_f',name:'الجدة للأب',max:2},{id:'grandmother_m',name:'الجدة للأم',max:2},{id:'brothers',name:'الإخوة الأشقاء',max:8},{id:'sisters',name:'الأخوات الشقيقات',max:8},{id:'brothers_f',name:'الإخوة لأب',max:8},{id:'paternal_uncles',name:'الأعمام',max:12}
-];
-let state={};
-function renderHeirs(){let h=document.getElementById('heirsList');h.innerHTML='';HEIRS.forEach(x=>{state[x.id]= (x.id.includes('sons')?0:x.id.includes('daughters')?0:x.id=='wives'?0:0);h.innerHTML+=`<div class="flex justify-between items-center bg-gray-50 p-3 rounded-xl"><div><b>${x.name}</b><br><small class="text-gray-500">الحد الأقصى ${x.max}</small></div><div class="flex items-center gap-2"><button onclick="upd('${x.id}',-1)" class="w-8 h-8 bg-white rounded-full shadow">-</button><span id="c-${x.id}" class="font-black w-6 text-center">${state[x.id]}</span><button onclick="upd('${x.id}',1)" class="w-8 h-8 bg-[#0B3D2E] text-white rounded-full">+</button></div></div>`});}
-function upd(id,d){let max=HEIRS.find(x=>x.id==id).max;state[id]=Math.max(0,Math.min(max,state[id]+d));document.getElementById('c-'+id).innerText=state[id];}
-function addCustomHeir(){let name=prompt('اسم الوارث:');if(name){HEIRS.push({id:'custom'+Date.now(),name,max:1});state[HEIRS[HEIRS.length-1].id]=1;renderHeirs();}}
+const HEIRS=[{id:'husband',n:'الزوج',m:1},{id:'wives',n:'الزوجات',m:4},{id:'sons',n:'الأبناء الذكور',m:10},{id:'daughters',n:'البنات',m:10},{id:'father',n:'الأب',m:1},{id:'mother',n:'الأم',m:1},{id:'grandfather',n:'الجد للأب',m:1},{id:'grandmother_f',n:'الجدة للأب',m:1},{id:'grandmother_m',n:'الجدة للأم',m:1},{id:'brothers',n:'الإخوة الأشقاء',m:8},{id:'sisters',n:'الأخوات الشقيقات',m:8},{id:'brothers_f',n:'الإخوة لأب',m:8},{id:'paternal_uncles',n:'الأعمام',m:12}];
+let state={},customHeirs=[],manualArea=0,chart;
+const $=id=>document.getElementById(id),toggleModal=(id,s)=>$(id).classList.toggle('hidden',!s),alertBox=m=>($('alertMsg').innerText=m,toggleModal('alertModal',1));
+
+function renderHeirs(){
+  $('heirsList').innerHTML=HEIRS.map(x=>`<div class="flex justify-between items-center bg-gray-50 p-2.5 rounded-xl text-sm"><div><b>${x.n}</b> <small class="text-gray-400">(${x.m})</small></div><div class="flex items-center gap-2"><button onclick="upd('${x.id}',-1)" class="w-7 h-7 bg-white rounded-full shadow font-bold">-</button><span id="c-${x.id}" class="font-black w-5 text-center">${state[x.id]||0}</span><button onclick="upd('${x.id}',1)" class="w-7 h-7 bg-[#0B3D2E] text-white rounded-full font-bold">+</button></div></div>`).join('')
+  +customHeirs.map((c,i)=>`<div class="flex justify-between items-center bg-amber-50 p-2.5 rounded-xl text-sm"><b>${c} <small class="text-amber-700">(خارج الفريضة)</small></b><button onclick="customHeirs.splice(${i},1);renderHeirs()" class="text-xs bg-red-100 text-red-700 px-2 py-1 rounded font-bold">حذف</button></div>`).join('');
+}
+function upd(id,d){const max=HEIRS.find(x=>x.id===id).m;state[id]=Math.max(0,Math.min(max,(state[id]||0)+d));$('c-'+id).innerText=state[id];}
+function addCustom(){const v=$('customName').value.trim();if(!v)return alertBox('أدخل اسم الطرف أولاً');customHeirs.push(v);$('customName').value='';toggleModal('addModal',0);renderHeirs();}
 renderHeirs();
 
-// ✅ حساب المساحة أوتوماتيك من الطول والعرض
-document.getElementById('totalLength').addEventListener('input',()=>{let L=+totalLength.value||0,W=+totalWidth.value||0;document.getElementById('area').value=L*W;});
-document.getElementById('totalWidth').addEventListener('input',()=>{let L=+totalLength.value||0,W=+totalWidth.value||0;document.getElementById('area').value=L*W;});
+['totalLength','totalWidth'].forEach(k=>$(k).oninput=()=>{if(!manualArea)$('area').value=(+$('totalLength').value||0)*(+$('totalWidth').value||0)||'';});
+$('area').oninput=()=>manualArea=1;
 
-let chart;
 function calculatePRO(){
-let area=+document.getElementById('area').value||0;
-let value=+document.getElementById('value').value||0;
-let L=+document.getElementById('totalLength').value||0;
-let W=+document.getElementById('totalWidth').value||0;
-let splitType=document.getElementById('splitType').value;
-document.getElementById('kpiValue').innerText=value.toLocaleString()+' درهم';
-document.getElementById('empty').classList.add('hidden');document.getElementById('resultBox').classList.remove('hidden');
-document.getElementById('planInfo').innerText=`الطول ${L}م والعرض ${W}م`;
+  const L=+$('totalLength').value||0,W=+$('totalWidth').value||0,area=+$('area').value||(L*W)||0,val=+$('value').value||0,sp=$('splitType').value;
+  const sons=state.sons||0,dau=state.daughters||0,hasSon=sons>0,hasChild=sons+dau>0,hasF=state.father>0,hasM=state.mother>0,hasH=state.husband>0,wives=state.wives||0;
+  const totalSel=HEIRS.reduce((a,x)=>a+(state[x.id]||0),0);
+  if(!totalSel)return alertBox('حدد وارثاً واحداً على الأقل');
 
-let totalParts=state.sons*2+state.daughters; let rows=[]; let fixed=0;
-if(state.wives>0){let share= totalParts>0?0.125:0.25;rows.push({name:`${state.wives} زوجة`,relation:'زوجة',fard:'الثمن/الربع',share:share,state:'محجوبة جزئيا'});fixed+=share;}
-if(state.mother>0){let share= totalParts>0||state.brothers>0?1/6:1/3;rows.push({name:'الأم',relation:'أم',fard:'السدس/الثلث',share:share,state:'وارثة'});fixed+=share;}
-if(state.father>0){rows.push({name:'الأب',relation:'أب',fard:'السدس + تعصيب',share:1/6,state:'وارث'});fixed+=1/6;}
-if(state.husband>0){let share= totalParts>0?0.25:0.5;rows.push({name:'الزوج',relation:'زوج',fard:'الربع/النصف',share:share,state:'وارث'});fixed+=share;}
+  $('kpiValue').innerText=val.toLocaleString()+' درهم';$('empty').classList.add('hidden');$('resultBox').classList.remove('hidden');
+  let list=[],notes=[];
+  if(hasH)list.push({n:'الزوج',f:hasChild?'الربع':'النصف',s:hasChild?.25:.5,t:'f',st:'فرض'});
+  if(wives)for(let i=0;i<wives;i++)list.push({n:wives>1?`زوجة ${i+1}`:'الزوجة',f:hasChild?'الثمن':'الربع',s:(hasChild?.125:.25)/wives,t:'f',st:'فرض'});
+  if(hasM){const m=(hasChild||(state.brothers||0)+(state.sisters||0)+(state.brothers_f||0)>=2)?1/6:1/3;list.push({n:'الأم',f:m===1/3?'الثلث':'السدس',s:m,t:'f',st:'فرض'});}
+  if(hasF)list.push({n:'الأب',f:hasSon?'السدس':dau?'السدس+تعصيب':'تعصيب',s:hasChild?1/6:0,t:hasSon?'f':dau?'fa':'a',st:hasSon?'فرض':'عاصب'});
+  else if(state.grandfather>0)list.push({n:'الجد للأب',f:hasSon?'السدس':dau?'السدس+تعصيب':'تعصيب',s:hasChild?1/6:0,t:hasSon?'f':dau?'fa':'a',st:hasSon?'فرض':'عاصب'});
+  if(!hasSon&&dau>0)for(let i=0;i<dau;i++)list.push({n:`بنت ${i+1}`,f:dau===1?'النصف':'الثلثان',s:(dau===1?.5:2/3)/dau,t:'f',st:'فرض'});
+  if(hasSon){const p=sons*2+dau;for(let i=0;i<sons;i++)list.push({n:`ابن ${i+1}`,f:'عصبة (2)',s:2/p,t:'c',st:'عاصب'});for(let i=0;i<dau;i++)list.push({n:`بنت ${i+1}`,f:'عصبة (1)',s:1/p,t:'c',st:'عاصبة'});}
+  if(hasF&&state.grandfather>0)notes.push('الجد محجوب بالأب.');
+  if((hasSon||hasF)&&((state.brothers||0)+(state.sisters||0)+(state.brothers_f||0)+(state.paternal_uncles||0)>0))notes.push('الإخوة والأعمام محجوبون بالابن أو الأب.');
 
-let remain=Math.max(0,1-fixed);
-if(totalParts>0){
-for(let i=0;i<state.sons;i++) rows.push({name:`ابن ${i+1}`,relation:'ابن',fard:'عصبة',share:remain*(2/totalParts),state:'عاصب'});
-for(let i=0;i<state.daughters;i++) rows.push({name:`بنت ${i+1}`,relation:'بنت',fard:'عصبة بالغير',share:remain*(1/totalParts),state:'عاصبة'});
-}else{
-if(state.father>0){let f=rows.find(r=>r.name=='الأب');if(f){f.share+=remain; f.fard='السدس + باقي';}}
-}
+  const fItems=list.filter(x=>x.t==='f'||x.t==='fa'),sumF=fItems.reduce((a,x)=>a+x.s,0),hasC=list.some(x=>x.t==='c');
+  let awl=0;
+  if(sumF>1){awl=1;fItems.forEach(x=>{x.s/=sumF;x.st='معوّل'});list.forEach(x=>{if(x.t==='c')x.s=0});}
+  else if(hasC){const rem=Math.max(0,1-sumF);list.forEach(x=>{if(x.t==='c')x.s*=rem});}
+  else{const a=list.find(x=>x.t==='a'||x.t==='fa'),rem=Math.max(0,1-sumF);if(a)a.s+=rem;}
 
-let tbody=document.getElementById('resultTable');tbody.innerHTML='';let labels=[];let dataChart=[];
-let colors=['#0B3D2E','#148F68','#FFD700','#FF6B6B','#4ECDC4','#45B7D1'];
-rows.forEach((r,i)=>{
-let m2=(r.share*area).toFixed(1);
-let mad=(r.share*value).toFixed(0);
-// ✅ حساب الطول الجديد
-let lengthMeters = splitType=='length'? (r.share * L) : (r.share * W);
-tbody.innerHTML+=`<tr class="border-b"><td class="p-3 font-bold">${r.name}</td><td>${r.relation}</td><td>${r.fard}</td><td>${(r.share*100).toFixed(2)}%</td><td class="font-black bg-yellow-100 text-center">${lengthMeters.toFixed(2)} م</td><td>${m2}</td><td>${Number(mad).toLocaleString()}</td><td><span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">${r.state}</span></td></tr>`;
-labels.push(r.name);dataChart.push((r.share*100).toFixed(2));
-});
-document.getElementById('kpiHeirs').innerText=rows.length;
-document.getElementById('kpiStatus').innerText= fixed>1? 'فيها عول' : 'عادلة';
-document.getElementById('legalDoc').innerHTML=`<h4 class="font-black">الوثيقة العدلية المبدئية - ${document.getElementById('city').value}</h4><p class="text-sm mt-3 leading-7">يشهد موقع qismati-PRO أنه بتاريخ ${new Date().toLocaleDateString('ar-MA')} تمت قسمة تركة مساحتها ${area}م² (الطول ${L}م × العرض ${W}م) وقيمتها ${value.toLocaleString()} درهم على ${rows.length} وارث. طريقة التقسيم الميداني: على ${splitType=='length'?'الطول':'العرض'}.<br><br>${rows.map(r=>`• ${r.name}: ${(r.share*(splitType=='length'?L:W)).toFixed(2)} متر ${splitType=='length'?'طول':'عرض'}`).join('<br>')}</p><div class="mt-4 text-xs text-gray-500">رقم الملف: QSM-${Date.now().toString().slice(-6)} | qismati.pro</div>`;
+  const dim=sp==='length'?L:W,fix=sp==='length'?W:L,dLbl=sp==='length'?'الطول':'العرض',fLbl=sp==='length'?'العرض':'الطول';
+  const cols=['#0B3D2E','#148F68','#FFD700','#FF6B6B','#4ECDC4','#45B7D1','#9B59B6','#E67E22'];
+  $('dimHeader').innerText=`${dLbl} (م)`;$('planInfo').innerText=`إجمالي ${dLbl}: ${dim}م | ${fLbl} الثابت: ${fix}م | المساحة: ${area}م²`;
+  $('resultTable').innerHTML=list.map(r=>`<tr class="border-b"><td class="p-2.5 font-bold">${r.n}</td><td class="p-2.5">${r.f}</td><td class="p-2.5">${(r.s*100).toFixed(2)}%</td><td class="p-2.5 font-black bg-yellow-100 text-center">${(r.s*dim).toFixed(2)}م</td><td class="p-2.5">${(r.s*area).toFixed(1)}</td><td class="p-2.5">${Math.round(r.s*val).toLocaleString()}</td><td class="p-2.5"><span class="bg-green-100 text-green-800 px-2 py-0.5 rounded-full text-xs font-bold">${r.st}</span></td></tr>`).join('')
+  +customHeirs.map(c=>`<tr class="border-b bg-amber-50"><td class="p-2.5 font-bold">${c}</td><td class="p-2.5">خارج الفريضة</td><td class="p-2.5">—</td><td class="p-2.5 text-center">—</td><td class="p-2.5">—</td><td class="p-2.5">—</td><td class="p-2.5"><span class="bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full text-xs font-bold">صلح/وصية</span></td></tr>`).join('');
 
-// ✅ خطة الأرض بالطول
-let plan=document.getElementById('landPlan');plan.innerHTML='';rows.forEach((r,i)=>{let len = splitType=='length'? (r.share * L) : (r.share * W);plan.innerHTML+=`<div style="width:${r.share*100}%;background:${colors[i%colors.length]}" class="text-white p-2 rounded-xl text-center flex flex-col justify-center"><b class="text-xs">${r.name}</b><span class="font-black">${len.toFixed(1)}م</span></div>`;});
+  $('kpiHeirs').innerText=list.length;$('kpiStatus').innerText=awl?'فيها عول':'عادلة';
+  $('legalDoc').innerHTML=`<h4 class="font-black">ملخص القسمة - ${$('city').value}</h4><p class="mt-2">التاريخ: ${new Date().toLocaleDateString('ar-MA')} | المساحة: ${area}م² | القيمة: ${val.toLocaleString()} درهم<br><br>${list.map(r=>`• <b>${r.n}</b>: ${(r.s*100).toFixed(2)}% (${(r.s*dim).toFixed(2)}م / ${Math.round(r.s*val).toLocaleString()} درهم)`).join('<br>')}</p>`;
+  $('landPlan').innerHTML=list.map((r,i)=>`<div style="width:${r.s*100}%;background:${cols[i%cols.length]}" class="text-white p-1 rounded-lg text-center flex flex-col justify-center"><b class="text-[11px] truncate">${r.n}</b><span class="font-black text-xs">${(r.s*dim).toFixed(1)}م</span></div>`).join('');
+  if(customHeirs.length)notes.push('الأطراف المضافة خارج الفريضة لا تُخصم تلقائياً من الأنصبة الشرعية.');
+  $('extraNotes').innerHTML=notes.length?`<div class="bg-amber-50 border border-amber-200 p-2.5 rounded-xl text-amber-900">${notes.join(' | ')}</div>`:'';
 
-if(chart) chart.destroy();
-chart=new Chart(document.getElementById('pieChart'),{type:'doughnut',data:{labels:labels,datasets:[{data:dataChart,backgroundColor:['#0B3D2E','#148F68','#FFD700','#FF6B6B','#4ECDC4','#45B7D1']}]},options:{plugins:{legend:{position:'bottom'}}}});
-}
-
-function exportPDF(){
-const {jsPDF}=window.jspdf; let doc=new jsPDF(); doc.setFont('helvetica'); doc.text('Qismati PRO - Document officiel',20,20); doc.text(document.getElementById('legalDoc').innerText,20,40, {maxWidth:170}); doc.save('qismati.pdf');
+  if(chart)chart.destroy();
+  chart=new Chart($('pieChart'),{type:'doughnut',data:{labels:list.map(x=>x.n),datasets:[{data:list.map(x=>+(x.s*100).toFixed(2)),backgroundColor:cols}]},options:{plugins:{legend:{position:'bottom'}}}});
 }
 </script>
 </body>
